@@ -1,22 +1,20 @@
-import {
-  Search,
-  Laptop,
-  Activity,
-  UserCheck,
-  FileText,
-} from "lucide-react";
+import { Search, Laptop, Activity, UserCheck, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import GridWithFeatures from "@/icons/GridWithFeatures";
 
 export function WhyChooseSection() {
   return (
     <section
-      className="py-24 relative bg-[#9BC53D]/5"
+      className="pt-8 relative bg-secondary-background border-t-2 border-accent/40"
       aria-labelledby="why-choose-heading"
     >
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
-          <span className="inline-block px-4 py-1 rounded-full bg-transparent border-[#9BC53D]/40 border-2 text-[#304F21] text-sm mb-4">
+      <div className="mx-auto">
+        <div className="text-center">
+          <span
+            className="inline-block px-4 py-1 rounded-full bg-transparent border-[#9BC53D]/40 border-2
+           text-[#304F21] text-sm mb-4"
+          >
             MODERN & FLEXIBLE
           </span>
           <h2
@@ -48,35 +46,27 @@ export function WhyChooseSection() {
           </Button>
         </div>
 
-        <div className="relative mt-16">
-          {/* Center circle */}
-          <div className="w-32 h-32 bg-[#36f200] rounded-2xl mx-auto flex items-center justify-center">
-            <div className="text-white">
-              <Image
-                src="/images/icons/spinner.svg"
-                width="30"
-                height="30"
-                alt="controller"
-              ></Image>
-            </div>
+        <div className="relative">
+          <div className="overflow-hidden w-screen md:block hidden">
+            <GridWithFeatures className="w-full h-full" />
           </div>
 
           {/* Features grid */}
-          <div className="grid grid-cols-3 gap-x-32 gap-y-16 max-w-4xl mx-auto mt-16">
+          <div className="mt-8 mx-auto md:hidden">
             {/* Left column */}
-            <div className="col-start-1">
+            <div>
               <FeatureCard
                 icon={<Search className="w-6 h-6" />}
                 title="Accessibility Diagnostics"
               />
             </div>
-            <div className="col-start-1">
+            <div>
               <FeatureCard
                 icon={<Laptop className="w-6 h-6" />}
                 title="Smart Compliance Engine"
               />
             </div>
-            <div className="col-start-1">
+            <div>
               <FeatureCard
                 icon={<Activity className="w-6 h-6" />}
                 title="Real-Time Monitoring"
@@ -84,13 +74,13 @@ export function WhyChooseSection() {
             </div>
 
             {/* Right column */}
-            <div className="col-start-3">
+            <div>
               <FeatureCard
                 icon={<UserCheck className="w-6 h-6" />}
                 title="Expert-Led Audits"
               />
             </div>
-            <div className="col-start-3">
+            <div>
               <FeatureCard
                 icon={<FileText className="w-6 h-6" />}
                 title="Compliance Reporting"
@@ -125,8 +115,8 @@ function FeatureCard({
   title: string;
 }) {
   return (
-    <div className="flex flex-col items-center p-4 bg-[#e8f5e9] rounded-lg">
-      <div className="text-[#304F21] mb-2">{icon}</div>
+    <div className="flex flex-col items-center p-4 bg-white border border-[#A1C391]">
+      <div className="text-[#304F21] bg- mb-2">{icon}</div>
       <h3 className="text-[#304F21] text-sm font-medium text-center">
         {title}
       </h3>
