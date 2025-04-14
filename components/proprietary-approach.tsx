@@ -233,9 +233,12 @@ export function BenefitsSection() {
             through real, sustainable code improvements.
           </p>
 
-          <div className="flex justify-center">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button className="bg-accent hover:bg-accent/80 text-[#081303] font-bold px-8 py-2">
-              Get Started Free
+              Start Free Trial
+            </Button>
+            <Button className="bg-[#132213] hover:bg-[#132213]/80 text-white border border-accent/30 px-8 py-2">
+              Book a demo to learn more
             </Button>
           </div>
         </div>
