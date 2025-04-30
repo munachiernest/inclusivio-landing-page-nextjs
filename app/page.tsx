@@ -1,16 +1,15 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import Link from "next/link";
 import { AutomateSection } from "@/components/automate-section";
 import { WhyChooseSection } from "@/components/why-choose-section";
 import { IntegrateSection } from "@/components/integrate-section";
-import Logo from "./logo";
 import Shopify from "@/icons/shopify";
 import { RethinkSans } from "@/components/fonts";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Mission from "@/components/mission";
-import ProprietarySection from "@/components/proprietary-approach";
+import ProprietarySection from "@/components/benefits";
+import Navbar from "@/components/navbar";
 
 export default function LandingPage() {
   return (
@@ -23,49 +22,7 @@ export default function LandingPage() {
       </a>
       <div className="min-h-screen">
         {/* Navigation */}
-        <header className="border-b border-[#002200] bg-[#081303]">
-          <nav
-            className="container mx-auto px-4 h-16 flex items-center justify-between"
-            aria-label="Main"
-          >
-            <div className="flex items-center space-x-2">
-              <Logo />
-              <span className="text-white text-xl font-semibold">
-                Inclusivio
-              </span>
-            </div>
-
-            <div className="hidden md:flex items-center space-x-8">
-              <Link href="#" className="text-[#a3a3a3] hover:text-white">
-                Why Us
-              </Link>
-              <Link href="#" className="text-[#a3a3a3] hover:text-white">
-                How it Works
-              </Link>
-              <Link href="#" className="text-[#a3a3a3] hover:text-white">
-                Features
-              </Link>
-              <Link href="#" className="text-[#a3a3a3] hover:text-white">
-                Resources
-              </Link>
-            </div>
-
-            <div className="flex items-center space-x-4">
-              <Button
-                variant="ghost"
-                className="text-[#a3a3a3] border-2 border-[#304F21] hover:text-white"
-              >
-                Login
-              </Button>
-              <Button
-                className="bg-[#304F21] hover:bg-[#304F21]/60 text-white border-[#307029] border-1"
-                aria-label="Get started with Inclusivio"
-              >
-                Get started
-              </Button>
-            </div>
-          </nav>
-        </header>
+        <Navbar />
 
         {/* Hero Section */}
         <main id="main-content" role="main">

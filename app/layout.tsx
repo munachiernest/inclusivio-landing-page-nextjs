@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Rethink_Sans } from "next/font/google";
+import { Footer } from "./footer";
 
 const RethinkSans = Rethink_Sans({
   subsets: ["latin"],
@@ -8,24 +9,26 @@ const RethinkSans = Rethink_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Inclusivio | AI-Powered Web Accessibility Platform",
+  title: "Inclusivio | The Next Generation in Web Accessibility,",
   description:
-    "Transform your website with code-level accessibility solutions that provide both compliance protection and business growth. Inclusivio delivers real-time detection with AI-powered remediation.",
+    "Transform your website with code-level accessibility solutions that provide both compliance protection and " +
+    "business growth.",
   keywords:
-    "web accessibility, ADA compliance, WCAG, accessibility platform, AI accessibility, digital inclusion",
+    "web accessibility, ADA compliance, WCAG, accessibility platform, pdf accessibility, digital inclusion",
   authors: [{ name: "Inclusivio" }],
   applicationName: "Inclusivio",
-  metadataBase: new URL("https://inclusivio.com"), // Replace with your actual domain
+  metadataBase: new URL("https://www.thea11ylabs.com"),
   openGraph: {
     type: "website",
     locale: "en_US",
-    title: "Inclusivio | Transform Web Accessibility",
+    title: "Web Accessibility Compliance Made Effortless",
     description:
       "AI-powered accessibility platform that fixes code-level issues for true compliance and business growth",
     siteName: "Inclusivio",
+    url: new URL("https://www.thea11ylabs.com"),
     images: [
       {
-        url: "/images/inclusivio-og.jpg", // Save your image with this name
+        url: "/images/issuesPreview.png", // Save your image with this name
         width: 1200,
         height: 630,
         alt: "Inclusivio - Web accessibility made effortless with AI",
@@ -37,7 +40,7 @@ export const metadata: Metadata = {
     title: "Inclusivio | AI-Powered Web Accessibility",
     description:
       "Transform your website with code-level accessibility solutions",
-    images: ["/images/inclusivio-og.jpg"], // Create and add this image (1200x675px recommended)
+    images: ["images/issuesPreview.png"], // Create and add this image (1200x675px recommended)
   },
   icons: {
     icon: [
@@ -66,6 +69,7 @@ export default function RootLayout({
     <html lang="en">
       <body suppressHydrationWarning={true} className={RethinkSans.className}>
         {children}
+        <Footer />
       </body>
     </html>
   );

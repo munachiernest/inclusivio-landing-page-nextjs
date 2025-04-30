@@ -8,6 +8,7 @@ import {
   ExternalLink,
   BarChart,
   Zap,
+  MousePointerClick,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -60,7 +61,7 @@ export function BenefitsSection() {
                 <Shield className="h-10 w-10 text-accent" />
               </div>
               <h3 className="text-2xl font-bold">
-                Resolves Accessibility Concerns Directly in Your Codebase
+                Fix Accessibility Issues in Your Apps
               </h3>
             </div>
 
@@ -92,7 +93,7 @@ export function BenefitsSection() {
                 </div>
                 <div className="ml-4">
                   <h4 className="font-semibold text-lg text-white">
-                    Automatic remediation that respects your design
+                    Remediation that respects your design
                   </h4>
                   <p className="text-gray-300">
                     Fixes applied without breaking your brand experience
@@ -106,7 +107,7 @@ export function BenefitsSection() {
                 </div>
                 <div className="ml-4">
                   <h4 className="font-semibold text-lg text-white">
-                    Compliance that sticks with evolving standards
+                    Compliance that stays current
                   </h4>
                   <p className="text-gray-300">
                     Stay up-to-date with changing WCAG/ADA requirements
@@ -124,9 +125,8 @@ export function BenefitsSection() {
                     AI that learns from every fix
                   </h4>
                   <p className="text-gray-300">
-                    Our AI engine parses your entire codebase leveraging
-                    advanced static analysis to identify WCAG violations, and
-                    generate tailored code fixes for your tech stack.
+                    Our AI engine parses your entire codebase to generate
+                    tailored code fixes for your tech stack.
                   </p>
                 </div>
               </div>
@@ -139,85 +139,97 @@ export function BenefitsSection() {
           </div>
 
           {/* Right Column - Beyond Compliance Benefits */}
-          <div className="bg-[#132213] p-8 md:p-10 rounded-lg shadow-lg border border-accent/20">
-            <div className="flex items-center mb-6">
-              <div className="bg-accent/20 p-3 rounded-lg mr-4">
-                <BarChart className="h-10 w-10 text-accent" />
-              </div>
-              <h3 className="text-2xl font-bold">Beyond Compliance: Growth</h3>
-            </div>
+          <div className="bg-[#132213] overflow-hidden rounded-lg shadow-lg border border-accent/20">
+            {/* Feature Image at the top */}
 
-            <p className="mb-8 text-gray-300">
-              Accessibility isn&apos;t just about avoiding lawsuits—it&apos;s
-              about expanding your reach, improving user experience, and
-              ultimately growing your business.
-            </p>
-
-            <div className="space-y-6">
-              <div className="flex items-start">
-                <div className="flex-shrink-0 mt-1">
-                  <Search className="text-accent w-6 h-6" />
+            {/* Card Content */}
+            <div className="p-8 md:p-10">
+              <div className="flex items-center mb-6">
+                <div className="bg-accent/20 p-3 rounded-lg mr-4">
+                  <BarChart className="h-10 w-10 text-accent" />
                 </div>
-                <div className="ml-4">
-                  <h4 className="font-semibold text-lg text-white">
-                    SEO advantages
-                  </h4>
-                  <p className="text-gray-300">
-                    Accessibility improvements directly boost search engine
-                    rankings
-                  </p>
-                </div>
+                <h3 className="text-2xl font-bold">
+                  Beyond Compliance: Customer Expansion
+                </h3>
               </div>
 
-              <div className="flex items-start">
-                <div className="flex-shrink-0 mt-1">
-                  <Users className="text-accent w-6 h-6" />
-                </div>
-                <div className="ml-4">
-                  <h4 className="font-semibold text-lg text-white">
-                    Expanded audience
-                  </h4>
-                  <p className="text-gray-300">
-                    Reach 1.3 billion people with disabilities ($1.9T in buying
-                    power)
-                  </p>
-                </div>
-              </div>
+              <p className="mb-8 text-gray-300">
+                Accessibility isn&apos;t just about avoiding lawsuits—it&apos;s
+                about expanding your reach, improving user experience, and
+                ultimately growing your business.
+              </p>
 
-              <div className="flex items-start">
-                <div className="flex-shrink-0 mt-1">
-                  <ExternalLink className="text-accent w-6 h-6" />
+              <div className="space-y-6">
+                <div className="flex items-start">
+                  <div className="flex-shrink-0 mt-1">
+                    <Search className="text-accent w-6 h-6" />
+                  </div>
+                  <div className="ml-4">
+                    <h4 className="font-semibold text-lg text-white">
+                      SEO advantages
+                    </h4>
+                    <p className="text-gray-300">
+                      Accessibility improvements directly boost search engine
+                      rankings
+                    </p>
+                  </div>
                 </div>
-                <div className="ml-4">
-                  <h4 className="font-semibold text-lg text-white">
-                    Universal usability
-                  </h4>
-                  <p className="text-gray-300">
-                    Better experience for all users, including those on mobile
-                    devices
-                  </p>
-                </div>
-              </div>
 
-              <div className="flex items-start">
-                <div className="flex-shrink-0 mt-1">
-                  <Shield className="text-accent w-6 h-6" />
+                <div className="flex items-start">
+                  <div className="flex-shrink-0 mt-1">
+                    <Users className="text-accent w-6 h-6" />
+                  </div>
+                  <div className="ml-4">
+                    <h4 className="font-semibold text-lg text-white">
+                      Expanded audience
+                    </h4>
+                    <p className="text-gray-300">
+                      Reach 1.3 billion people with disabilities ($1.9T in
+                      buying power)
+                    </p>
+                  </div>
                 </div>
-                <div className="ml-4">
-                  <h4 className="font-semibold text-lg text-white">
-                    Stay compliant, automatically
-                  </h4>
-                  <p className="text-gray-300">
-                    While you focus on growth, we handle the technical details
-                    of WCAG and ADA compliance in the background
-                  </p>
+
+                <div className="flex items-start">
+                  <div className="flex-shrink-0 mt-1">
+                    <ExternalLink className="text-accent w-6 h-6" />
+                  </div>
+                  <div className="ml-4">
+                    <h4 className="font-semibold text-lg text-white">
+                      Universal usability
+                    </h4>
+                    <p className="text-gray-300">
+                      Better experience for all users, including those on mobile
+                      devices
+                    </p>
+                  </div>
                 </div>
+
+                <div className="flex items-start">
+                  <div className="flex-shrink-0 mt-1">
+                    <MousePointerClick className="text-accent w-6 h-6" />{" "}
+                    {/* Using MousePointerClick icon */}
+                  </div>
+                  <div className="ml-4">
+                    <h4 className="font-semibold text-lg text-white">
+                      Superior User Experience
+                    </h4>
+                    <p className="text-gray-300">
+                      Intuitive design and seamless interactions attract and
+                      retain more users, boosting market share.
+                    </p>
+                  </div>
+                </div>
+                <p className="mt-6 text-xl text-accent">
+                  It&apos;s effective usability that drives real business growth.
+                </p>
               </div>
             </div>
           </div>
         </div>
 
         {/* Bottom CTA */}
+
         <div className="mt-16 max-w-3xl mx-auto">
           <div className="border-l-4 border-accent pl-6 py-3 text-left mb-8">
             <p className="text-lg md:text-xl text-white">
