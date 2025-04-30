@@ -7,6 +7,7 @@ export function AutomateSection() {
   return (
     <section
       className="py-4 w-screen bg-secondary-background"
+      id="features"
       aria-labelledby="automate-compliance"
     >
       <div className="container mx-auto px-4 flex flex-col gap-8 h-1/2 justify-center">

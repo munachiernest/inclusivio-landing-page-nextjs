@@ -7,6 +7,7 @@ export function WhyChooseSection() {
   return (
     <section
       className="pt-8 relative bg-secondary-background border-t-2 border-accent/40"
+      id="why-us"
       aria-labelledby="why-choose-heading"
     >
       <div className="mx-auto">

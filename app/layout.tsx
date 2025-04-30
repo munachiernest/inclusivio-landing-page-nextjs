@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Rethink_Sans } from "next/font/google";
-import { Footer } from "./footer";
+import { Footer } from "../components/footer";
 
 const RethinkSans = Rethink_Sans({
   subsets: ["latin"],

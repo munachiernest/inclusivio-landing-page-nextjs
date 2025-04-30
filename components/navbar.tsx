@@ -1,8 +1,13 @@
+"use client";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import Logo from "./logo";
+import { Button } from "@/components/ui/button";
+import { usePathname } from "next/navigation"; // Import usePathname
+import { cn } from "@/lib/utils"; // Import cn
 
-function Navbar() {
+export default function Navbar() {
+  const pathname = usePathname(); // Get the current path
+
   return (
     <header className="border-b border-[#002200] bg-[#081303]">
       <nav
@@ -11,22 +16,59 @@ function Navbar() {
       >
         <div className="flex items-center space-x-2">
           <Logo />
-          <span className="text-white text-xl font-semibold">Inclusivio</span>
+          <Link href="/" className="text-white text-xl font-semibold">
+            Inclusivio
+          </Link>
         </div>
 
         <div className="hidden md:flex items-center space-x-8">
-          <Link href="#" className="text-[#a3a3a3] hover:text-white">
+          {/* Updated Links */}
+          <Link
+            href="/#why-us"
+            className={cn(
+              "hover:text-white",
+              pathname === "/" || pathname.startsWith("/#why-us")
+                ? "text-white font-medium"
+                : "text-[#a3a3a3]" // Example active state for homepage sections
+            )}
+          >
             Why Us
           </Link>
-          <Link href="#" className="text-[#a3a3a3] hover:text-white">
+          {/* Assuming a section ID #how-it-works on the homepage */}
+          <Link
+            href="/#how-it-works"
+            className={cn(
+              "hover:text-white",
+              pathname.startsWith("/#how-it-works")
+                ? "text-white font-medium"
+                : "text-[#a3a3a3]"
+            )}
+          >
             How it Works
           </Link>
-          <Link href="#" className="text-[#a3a3a3] hover:text-white">
+          <Link
+            href="/pricing"
+            className={cn(
+              "hover:text-white",
+              pathname === "/pricing"
+                ? "text-white font-medium"
+                : "text-[#a3a3a3]" // Active state for Pricing page
+            )}
+          >
+            Pricing
+          </Link>
+          <Link
+            href="/#features"
+            className={cn(
+              "hover:text-white",
+              pathname.startsWith("/#features")
+                ? "text-white font-medium"
+                : "text-[#a3a3a3]"
+            )}
+          >
             Features
           </Link>
-          <Link href="#" className="text-[#a3a3a3] hover:text-white">
-            Resources
-          </Link>
+          {/* Removed Resources Link */}
         </div>
 
         <div className="flex items-center space-x-4">
@@ -48,4 +90,5 @@ function Navbar() {
   );
 }
 
-export default Navbar;
+// IMPORTANT: Add 'use client' at the top of this file
+// since we are now using the usePathname hook.
