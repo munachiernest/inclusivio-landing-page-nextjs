@@ -25,7 +25,7 @@ export function IntegrateSection() {
               <p className="text-green-500 mb-4">
                 Connect your Shopify store to run automated accessibility scans
               </p>
-              <Button className="bg-[#36f200] hover:bg-[#36f200]/80 text-white px-8 py-2">
+              <Button className="bg-[#36f200] hover:bg-[#36f200]/80 text-black px-8 py-2">
                 Link Shopify Store
               </Button>
             </div>
@@ -62,7 +62,7 @@ const score = await scanner.getScore();`}</code>
           <h3 className="text-2xl font-bold text-white mb-8">
             Achieve Compliance in Minutes
           </h3>
-          <Button className="bg-[#36f200] hover:bg-[#36f200]/80 text-white px-8">
+          <Button className="bg-[#36f200] hover:bg-[#36f200]/80 text-black px-8">
             Start Integration
           </Button>
         </div>
