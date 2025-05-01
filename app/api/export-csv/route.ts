@@ -1,8 +1,8 @@
 // app/api/admin/export-csv/route.ts
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 import { getRegistrations } from '@/app/actions/registration'
 
-export async function GET(request: NextRequest) {
+export async function GET() {
     const result = await getRegistrations()
 
     if (!result.success) {

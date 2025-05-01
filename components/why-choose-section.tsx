@@ -2,6 +2,7 @@ import { Search, Laptop, Activity, UserCheck, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import GridWithFeatures from "@/icons/GridWithFeatures";
+import Link from "next/link";
 
 export function WhyChooseSection() {
   return (
@@ -42,8 +43,13 @@ export function WhyChooseSection() {
             automated tools to ensure accessibility, without needing deep
             technical knowledge
           </p>
-          <Button className="mt-8 bg-[#304F21] hover:bg-[#304F21]/80 text-white">
-            Get started free
+          <Button
+            className="mt-8 bg-[#304F21] hover:bg-[#304F21]/80 text-white"
+            asChild
+          >
+            <Link href="/coming-soon?feature=Free%20Trial">
+              Get started free
+            </Link>
           </Button>
         </div>
 

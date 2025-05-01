@@ -1,4 +1,3 @@
-// lib/db.ts
 import { Low } from 'lowdb'
 import { JSONFile } from 'lowdb/node'
 
@@ -9,6 +8,7 @@ interface Registration {
     email: string;
     company: string;
     feature: string;
+    useCase?: string; // Added useCase field (optional)
     timestamp: string;
 }
 
@@ -20,7 +20,7 @@ interface Data {
 const defaultData: Data = { registrations: [] }
 
 // Create database instance
-const adapter = new JSONFile<Data>('data/db.json')
+const adapter = new JSONFile<Data>('data/db.json') // Ensure this path is correct
 const db = new Low<Data>(adapter, defaultData)
 
 // Initialize database
@@ -31,14 +31,14 @@ async function initDb() {
         await db.write()
     } catch (error) {
         console.error('Error initializing database:', error)
-        // If file doesn't exist, create it
+        // If file doesn't exist or has issues, create/overwrite it
         db.data = defaultData
         await db.write()
     }
 }
 
-// Make sure the database is initialized
-initDb()
+// Make sure the database is initialized when the module loads
+initDb().catch(console.error); // Handle potential init errors
 
 export { db }
 export type { Registration }

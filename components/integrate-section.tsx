@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export function IntegrateSection() {
   return (
@@ -25,8 +26,13 @@ export function IntegrateSection() {
               <p className="text-green-500 mb-4">
                 Connect your Shopify store to run automated accessibility scans
               </p>
-              <Button className="bg-[#36f200] hover:bg-[#36f200]/80 text-black px-8 py-2">
-                Link Shopify Store
+              <Button
+                className="bg-[#36f200] hover:bg-[#36f200]/80 text-black px-8 py-2"
+                asChild
+              >
+                <Link href="/coming-soon?feature=Shopify%20Integration">
+                  Link Shopify Store
+                </Link>
               </Button>
             </div>
           </div>
@@ -62,8 +68,13 @@ const score = await scanner.getScore();`}</code>
           <h3 className="text-2xl font-bold text-white mb-8">
             Achieve Compliance in Minutes
           </h3>
-          <Button className="bg-[#36f200] hover:bg-[#36f200]/80 text-black px-8">
-            Start Integration
+          <Button
+            className="bg-[#36f200] hover:bg-[#36f200]/80 text-black px-8"
+            asChild
+          >
+            <Link href="/coming-soon?feature=API%20Integration">
+              Start Integration
+            </Link>
           </Button>
         </div>
       </div>
