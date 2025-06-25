@@ -222,8 +222,8 @@ export function BenefitsSection() {
                   </div>
                 </div>
                 <p className="mt-6 text-xl text-accent">
-                  It&apos;s effective usability that drives real business
-                  growth.
+                  It&apos;s brand trust earned through inclusive, equitable
+                  design.
                 </p>
               </div>
             </div>
@@ -244,7 +244,7 @@ export function BenefitsSection() {
 
           <p className="text-lg md:text-xl text-white mb-8 text-center">
             You can achieve both compliance protection and business growth
-            through real, sustainable code improvements.
+            through reliable, sustainable code improvements.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">

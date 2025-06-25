@@ -52,7 +52,7 @@ export function AutomateSection() {
         >
           {/* Small pill at the top */}
           <span
-            className="flex shadow-lg absolute top-24 md:top-[16%] text-[#8CB62D] text-sm px-2 py-1 border
+            className="flex shadow-lg absolute top-24 md:top-[16%] text-brand-button text-sm px-2 py-1 border
           border-accent/10 rounded-full bg-white z-10 gap-1 leading-tight"
           >
             <ArrowUp className="text-white bg-[#69842D] rounded-full w-4 h-4" />

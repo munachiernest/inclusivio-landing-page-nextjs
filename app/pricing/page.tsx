@@ -58,14 +58,14 @@ const incluJetPlans: IncluJetPlan[] = [
     priceMonthly: "$60",
     pricePeriodMonthly: "/month",
     description: "Automated scanning & widget",
-    pageLimit: "Up to 5 pages",
+    pageLimit: "Up to 10 pages", // Updated limit
     ctaText: "Start Free Trial",
     ctaVariant: "outline",
     standoutFeatures: [
       { text: "Automated web accessibility", included: true },
       { text: "Ongoing scans & fixes every 24 hrs", included: true },
       { text: "Accessibility report & documentation", included: true },
-      { text: "White Labelled Widget", included: false }, // Added, not included in Micro
+      { text: "White Labelled Widget", included: false },
     ],
     support: [
       { text: "Online help center", included: true },
@@ -80,16 +80,16 @@ const incluJetPlans: IncluJetPlan[] = [
     priceMonthly: "$139",
     pricePeriodMonthly: "/month",
     description: "For growing businesses",
-    pageLimit: "Up to 100 pages",
+    pageLimit: "Up to 100 pages", // Updated limit
     ctaText: "Start Free Trial",
     ctaVariant: "outline",
-    standoutFeatures: [{ text: "Everything in Micro, plus:", included: false }],
+    standoutFeatures: [{ text: "Everything in Micro, plus:", included: false }], // Fixed repetition
     premiumFeatures: [
       { text: "Dedicated case manager", included: true },
       { text: "Built-in Google Analytics", included: true },
       { text: "Multi-account management", included: true },
       { text: "User & team management", included: true },
-      { text: "White Labelled Widget", included: true }, // Added, included in Growth
+      { text: "White Labelled Widget", included: true },
     ],
     support: [{ text: "Up to 2 days response", included: true }],
   },
@@ -100,16 +100,16 @@ const incluJetPlans: IncluJetPlan[] = [
     priceMonthly: "$399",
     pricePeriodMonthly: "/month",
     description: "For scaling businesses",
-    pageLimit: "Up to 1000 pages",
+    pageLimit: "Up to 1000 pages", // Updated limit
     recommended: true,
     ctaText: "Book a Demo",
     ctaVariant: "default",
     standoutFeatures: [
       { text: "Everything in Growth, plus:", included: false },
-    ],
+    ], // Fixed repetition
     premiumFeatures: [
       { text: "Top ADA attorney consultation", included: true },
-      { text: "White Labelled Widget with Custom Branding", included: true }, // Enhanced version for Scale
+      { text: "White Labelled Widget with Custom Branding", included: true },
     ],
     remediation: [
       { text: "Manual testing & validation by experts", included: true },
@@ -131,7 +131,7 @@ const incluJetPlans: IncluJetPlan[] = [
     ctaText: "Let's Talk",
     ctaVariant: "outline",
     isEnterprise: true,
-    standoutFeatures: [{ text: "Everything in Scale, plus:", included: false }],
+    standoutFeatures: [{ text: "Everything in Scale, plus:", included: false }], // Fixed repetition
     remediation: [
       { text: "On demand testing & validation by experts", included: true },
     ],
@@ -139,7 +139,7 @@ const incluJetPlans: IncluJetPlan[] = [
       { text: "10 hours with expert ADA attorney", included: true },
       { text: "Single-sign-on (SSO)", included: true },
       { text: "Solution engineering", included: true },
-      { text: "Fully Customizable White Labelled Widget", included: true }, // Fully customizable for Enterprise
+      { text: "Fully Customizable White Labelled Widget", included: true },
     ],
   },
 ];
@@ -151,7 +151,7 @@ const incluFixPlans: IncluFixPlan[] = [
     pricePeriodMonthly: "/month",
     priceYearly: "$3,000",
     pricePeriodYearly: "/year",
-    description: "Up to 10 web pages",
+    description: "Up to 10 web pages", // Updated limit
     ctaText: "Start Free Trial",
     ctaVariant: "default",
     freeTrialNote: "* Free trial for business emails only",
@@ -163,14 +163,13 @@ const incluFixPlans: IncluFixPlan[] = [
       { text: "Up to 2 users", included: true },
     ],
   },
-  // Other IncluFix plans remain unchanged
   {
     name: "Growth",
     priceMonthly: "$1,099",
     pricePeriodMonthly: "/month",
     priceYearly: "$10,990",
     pricePeriodYearly: "/year",
-    description: "Up to 1,000 web pages",
+    description: "Up to 100 web pages", // Updated limit
     ctaText: "Start Free Trial",
     ctaVariant: "default",
     freeTrialNote: "* Free trial for business emails only",
@@ -189,7 +188,7 @@ const incluFixPlans: IncluFixPlan[] = [
     pricePeriodMonthly: "/month",
     priceYearly: "$20,900",
     pricePeriodYearly: "/year",
-    description: "Up to 10,000 web pages",
+    description: "Up to 1,000 web pages", // Updated limit
     ctaText: "Start Free Trial",
     ctaVariant: "default",
     freeTrialNote: "* Free trial for business emails only",
@@ -211,7 +210,7 @@ const incluFixPlans: IncluFixPlan[] = [
     pricePeriodMonthly: "",
     priceYearly: "Custom",
     pricePeriodYearly: "",
-    description: "10,000+ web pages",
+    description: "1,000+ web pages", // Updated limit
     ctaText: "Contact Us",
     ctaVariant: "outline",
     isEnterprise: true,
@@ -248,27 +247,12 @@ const FeatureList = ({ items }: { items?: PlanFeature[] }) => {
           ) : (
             <XIcon className="w-5 h-5 text-red-500 flex-shrink-0 mr-2 mt-0.5" />
           )}
-          <span
-            className={cn(item.included ? "text-gray-300" : "text-gray-500")}
-          >
-            {item.text.startsWith("Everything in") ? (
-              <>
-                <strong>{item.text.split(" ").slice(0, 3).join(" ")}</strong>
-                {item.text.substring(
-                  item.text.indexOf(" ", item.text.indexOf(" ") + 3)
-                )}
-              </>
-            ) : (
-              item.text
-            )}
-          </span>
+          <span className="text-gray-300">{item.text}</span>
         </li>
       ))}
     </ul>
   );
 };
-
-// --- Pricing Card Component (Handles Both Plan Types) ---
 
 const PricingCard = ({
   plan,
@@ -278,114 +262,98 @@ const PricingCard = ({
   billingCycle: "monthly" | "yearly";
 }) => {
   const isIncluJet = "pageLimit" in plan;
-  const isIncluFix = "features" in plan && !isIncluJet;
+  const isRecommended = isIncluJet && (plan as IncluJetPlan).recommended;
+  const isEnterprise = plan.isEnterprise;
 
-  const planName = plan.name;
-  const description = plan.description;
-  const ctaText = plan.ctaText;
-  // Determine CTA Variant based on plan type and specific conditions
-  const isRecommendedStyle =
-    isIncluJet && plan.recommended && billingCycle === "yearly";
-  const finalCtaVariant = isRecommendedStyle
-    ? "default" // Recommended IncluJet uses default visually (accent bg)
-    : isIncluFix
-    ? plan.isEnterprise
-      ? "outline"
-      : "default" // IncluFix: Outline for Enterprise, Default otherwise
-    : plan.ctaVariant || "outline"; // IncluJet: Use defined variant or default to outline
+  const price =
+    billingCycle === "yearly" ? plan.priceYearly : plan.priceMonthly;
+  const period =
+    billingCycle === "yearly"
+      ? plan.pricePeriodYearly
+      : plan.pricePeriodMonthly;
 
-  let priceDisplay: React.ReactNode;
-  let periodDisplay: React.ReactNode;
-
-  if (plan.isEnterprise) {
-    priceDisplay = (
-      <span className="text-4xl font-bold text-white">Custom</span>
-    );
-    periodDisplay = null;
-  } else if (billingCycle === "monthly") {
-    priceDisplay = (
-      <span className="text-4xl font-bold text-white">{plan.priceMonthly}</span>
-    );
-    periodDisplay = (
-      <span className="text-gray-400">{plan.pricePeriodMonthly}</span>
-    );
-  } else {
-    priceDisplay = (
-      <span className="text-4xl font-bold text-white">{plan.priceYearly}</span>
-    );
-    periodDisplay = (
-      <span className="text-gray-400">{plan.pricePeriodYearly}</span>
-    );
-  }
+  const features = isIncluJet ? null : (plan as IncluFixPlan).features;
+  const standoutFeatures = isIncluJet
+    ? (plan as IncluJetPlan).standoutFeatures
+    : null;
+  const premiumFeatures = isIncluJet
+    ? (plan as IncluJetPlan).premiumFeatures
+    : null;
+  const support = isIncluJet ? (plan as IncluJetPlan).support : null;
+  const addedPremiumFeatures = isIncluJet
+    ? (plan as IncluJetPlan).addedPremiumFeatures
+    : null;
+  const remediation = isIncluJet ? (plan as IncluJetPlan).remediation : null;
 
   return (
     <div
       className={cn(
-        "border rounded-lg p-6 flex flex-col h-full transition-all duration-300",
-        isRecommendedStyle
-          ? "border-brand-accent bg-[#10240E] relative shadow-lg shadow-brand-accent/10"
-          : "border-[#304F21] bg-[#0D1A07]"
+        "relative bg-[#132213] border border-accent/20 rounded-lg p-6 flex flex-col h-full",
+        isRecommended ? "border-accent border-2" : ""
       )}
     >
-      {isRecommendedStyle && (
-        <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-brand-accent text-white px-3 py-1 text-xs font-bold rounded-full uppercase tracking-wider">
-          Recommended
+      {isRecommended && (
+        <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+          <span className="inline-block bg-accent text-[#081303] text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+            Recommended
+          </span>
         </div>
       )}
+
       <div className="flex-grow">
-        <h3 className="text-sm font-semibold text-brand-accent uppercase tracking-wider mb-3">
-          {planName}
+        <h3 className="text-xl font-bold text-white mb-1 uppercase tracking-wide">
+          {plan.name}
         </h3>
-        <div className="mb-2 min-h-[50px] flex items-baseline space-x-1">
-          {priceDisplay}
-          {periodDisplay}
-        </div>
-        <p className="text-gray-400 text-sm mb-6">{description}</p>
-
-        {/* Shadcn Button for CTA */}
-        <Button
-          variant={finalCtaVariant} // Use the determined variant
-          className={cn(
-            "w-full mb-4 flex items-center justify-center group",
-            // Apply specific background/text colors based on the final variant and recommendation status
-            isRecommendedStyle
-              ? "bg-brand-accent text-white hover:bg-brand-accent/80" // Recommended Style overrides variant style
-              : finalCtaVariant === "default"
-              ? "bg-brand-button text-white hover:bg-brand-button-hover" // Standard Default Style
-              : "border-brand-accent text-brand-accent hover:bg-brand-accent/10" // Outline Style
+        <div className="mb-4 h-16">
+          {" "}
+          {/* Fixed height for price section */}
+          {isEnterprise ? (
+            <span className="text-4xl font-bold text-white block">Custom</span>
+          ) : (
+            <>
+              <span className="text-4xl font-bold text-white">{price}</span>
+              <span className="text-lg text-gray-400">{period}</span>
+            </>
           )}
-        >
-          <span>{ctaText}</span>
-          <ArrowRight className="w-4 h-4 ml-2 transition-transform duration-200 group-hover:translate-x-1" />
-        </Button>
-
-        {isIncluFix && plan.freeTrialNote && (
-          <p className="text-xs text-gray-400 text-center mb-4">
-            {plan.freeTrialNote}
+        </div>
+        <p className="text-gray-400 mb-6">{plan.description}</p>
+        {isIncluJet && (
+          <p className="text-brand-accent font-semibold mb-6">
+            {(plan as IncluJetPlan).pageLimit}
           </p>
         )}
+      </div>
 
-        {/* Feature Lists */}
-        {isIncluJet && plan.standoutFeatures && (
-          <FeatureList items={plan.standoutFeatures} />
+      <Button
+        variant={plan.ctaVariant || "default"}
+        className={cn(
+          "w-full mt-auto mb-6",
+          plan.ctaVariant === "default"
+            ? "bg-accent text-[#081303] hover:bg-accent/80"
+            : "bg-transparent border border-accent text-accent hover:bg-accent/10"
         )}
-        {isIncluJet && plan.premiumFeatures && (
-          <FeatureList items={plan.premiumFeatures} />
-        )}
-        {isIncluJet && plan.remediation && (
-          <FeatureList items={plan.remediation} />
-        )}
-        {isIncluJet && plan.addedPremiumFeatures && (
-          <FeatureList items={plan.addedPremiumFeatures} />
-        )}
-        {isIncluJet && plan.support && <FeatureList items={plan.support} />}
-        {isIncluFix && plan.features && <FeatureList items={plan.features} />}
+      >
+        {plan.ctaText} <ArrowRight className="ml-2 h-4 w-4" />
+      </Button>
+
+      {!isIncluJet && (plan as IncluFixPlan).freeTrialNote && (
+        <p className="text-xs text-gray-500 text-center mb-4">
+          {(plan as IncluFixPlan).freeTrialNote}
+        </p>
+      )}
+
+      <div className="flex-grow">
+        {standoutFeatures && <FeatureList items={standoutFeatures} />}
+        {premiumFeatures && <FeatureList items={premiumFeatures} />}
+        {remediation && <FeatureList items={remediation} />}
+        {addedPremiumFeatures && <FeatureList items={addedPremiumFeatures} />}
+        {support && <FeatureList items={support} />}
+        {features && <FeatureList items={features} />}
       </div>
     </div>
   );
 };
 
-// --- Billing Toggle Component (Using Shadcn Button for Radio Style) ---
 const BillingToggle = ({
   billingCycle,
   onToggle,
@@ -394,153 +362,92 @@ const BillingToggle = ({
   onToggle: (cycle: "monthly" | "yearly") => void;
 }) => {
   return (
-    <div
-      className="flex items-center justify-center space-x-4 mb-10"
-      role="radiogroup"
-      aria-label="Billing cycle"
-    >
-      {/* Monthly Shadcn Button */}
-      <Button
-        variant="ghost" // Use ghost variant as a base
-        size="lg"
+    <div className="flex justify-center items-center space-x-4 mb-12">
+      <button
         onClick={() => onToggle("monthly")}
         className={cn(
-          "flex items-center space-x-2 px-4 py-2 rounded-full transition-all duration-300 h-auto focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[#081303]", // Added focus style
+          "px-4 py-2 rounded-md text-sm font-medium transition-colors",
           billingCycle === "monthly"
-            ? "text-white"
-            : "text-gray-400 hover:text-gray-200"
+            ? "bg-accent text-[#081303]"
+            : "text-gray-400 hover:text-white"
         )}
-        aria-pressed={billingCycle === "monthly"}
-        aria-checked={billingCycle === "monthly"}
-        aria-label="Select monthly billing"
       >
-        <span
+        Monthly
+      </button>
+      <div className="relative">
+        <button
+          onClick={() => onToggle("yearly")}
           className={cn(
-            "w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 mr-2",
-            billingCycle === "monthly"
-              ? "border-brand-accent bg-brand-accent"
-              : "border-gray-500"
-          )}
-        >
-          {billingCycle === "monthly" && (
-            <span className="w-2 h-2 rounded-full bg-[#081303]"></span>
-          )}
-        </span>
-        <span>Billed Monthly</span>
-      </Button>
-
-      {/* Yearly Shadcn Button */}
-      <Button
-        variant="ghost"
-        size="lg"
-        onClick={() => onToggle("yearly")}
-        className={cn(
-          "flex items-center space-x-2 px-4 py-2 rounded-full transition-all duration-300 h-auto focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[#081303]", // Added focus style
-          billingCycle === "yearly"
-            ? "text-white"
-            : "text-gray-400 hover:text-gray-200"
-        )}
-        aria-pressed={billingCycle === "yearly"}
-        aria-checked={billingCycle === "yearly"}
-        aria-label="Select yearly billing"
-      >
-        <span
-          className={cn(
-            "w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 mr-2",
+            "px-4 py-2 rounded-md text-sm font-medium transition-colors",
             billingCycle === "yearly"
-              ? "border-brand-accent bg-brand-accent"
-              : "border-gray-500"
+              ? "bg-accent text-[#081303]"
+              : "text-gray-400 hover:text-white"
           )}
         >
-          {billingCycle === "yearly" && (
-            <span className="w-2 h-2 rounded-full bg-[#081303]"></span>
-          )}
+          Annually
+        </button>
+        <span
+          className="absolute -top-4 -right-4 bg-[#304F21] text-accent text-xs font-semibold px-2 py-0.5 rounded-full border border-accent/50"
+          style={{ transform: "rotate(15deg)" }}
+        >
+          Save 35%
         </span>
-        <span>Billed Yearly</span>
-      </Button>
-
-      {/* "Save" badge */}
-      <span className="bg-[#1A3B13] text-brand-accent text-xs font-bold px-3 py-1 rounded-full whitespace-nowrap border border-brand-accent/30">
-        SAVE ~17%
-      </span>
+      </div>
     </div>
   );
 };
 
 // --- Main Pricing Page Component ---
+
 export default function PricingPage() {
   const [billingCycle, setBillingCycle] = useState<"monthly" | "yearly">(
     "yearly"
   );
 
-  return (
-    <div className="bg-[#081303] min-h-screen text-white flex flex-col">
-      <Navbar />
+  const handleToggle = (cycle: "monthly" | "yearly") => {
+    setBillingCycle(cycle);
+  };
 
-      <main
-        id="main-content"
-        role="main"
-        className="container mx-auto px-4 py-16 flex-grow"
-      >
-        {/* Page Header */}
-        <div className="text-center mb-8 max-w-3xl mx-auto">
-          <span className="inline-block px-3 py-1 rounded-full bg-brand-accent/10 text-brand-accent text-sm font-medium mb-4">
-            PRICING PLANS
+  return (
+    <div className="bg-[#081303] text-white min-h-screen">
+      <Navbar />
+      <div className="container mx-auto px-4 py-16 md:py-24">
+        <div className="text-center mb-16 max-w-3xl mx-auto">
+          <span
+            className="inline-block px-4 py-1 rounded-full bg-transparent border-accent/40
+          border-2 text-accent text-sm mb-4"
+          >
+            FLEXIBLE PRICING
           </span>
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">
             Choose Your Accessibility Solution
           </h1>
+          <p className="text-lg text-gray-300 mb-10">
+            Select the plan that best fits your needs, whether you need
+            automated scanning with IncluJet or code-level remediation with
+            IncluFix. Get started today and make your digital presence
+            inclusive.
+          </p>
+          <BillingToggle billingCycle={billingCycle} onToggle={handleToggle} />
         </div>
 
-        {/* --- Billing Toggle (Uses Shadcn Buttons) --- */}
-        <BillingToggle billingCycle={billingCycle} onToggle={setBillingCycle} />
-
-        {/* --- TABS --- */}
-        <Tabs defaultValue="inclufix" className="w-full max-w-6xl mx-auto">
-          <TabsList className="grid w-full grid-cols-2 mb-10 bg-[#0D1A07] border border-[#304F21] h-12 p-1 max-w-lg mx-auto">
-            {/* Shadcn TabsTrigger is button-like but handled by the Tabs component */}
-            <TabsTrigger
-              value="inclufix"
-              className="data-[state=active]:bg-[#1A3B13] data-[state=active]:text-white text-gray-400 h-full text-base"
-            >
-              IncluFix{" "}
-              <span className="hidden sm:inline ml-1">(Code Fixes)</span>
-            </TabsTrigger>
+        <Tabs defaultValue="inclujet" className="w-full">
+          <TabsList className="grid w-full grid-cols-2 max-w-md mx-auto mb-12 bg-[#132213] border border-accent/20 p-1 h-auto rounded-lg">
             <TabsTrigger
               value="inclujet"
-              className="data-[state=active]:bg-[#1A3B13] data-[state=active]:text-white text-gray-400 h-full text-base"
+              className="data-[state=active]:bg-accent data-[state=active]:text-[#081303] text-white rounded-md py-2 text-lg font-semibold" // Increased text size
             >
-              IncluJet <span className="hidden sm:inline ml-1">(Widget)</span>
+              IncluJet (Widget)
+            </TabsTrigger>
+            <TabsTrigger
+              value="inclufix"
+              className="data-[state=active]:bg-accent data-[state=active]:text-[#081303] text-white rounded-md py-2 text-lg font-semibold" // Increased text size
+            >
+              IncluFix (Code)
             </TabsTrigger>
           </TabsList>
-
-          {/* IncluFix Content */}
-          <TabsContent value="inclufix">
-            <p className="text-center text-gray-400 mb-8 -mt-4">
-              Direct, expert-led remediation of accessibility issues within your
-              website&apos;s codebase.
-            </p>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
-              {incluFixPlans.map((plan) => (
-                <PricingCard
-                  key={plan.name}
-                  plan={plan}
-                  billingCycle={billingCycle}
-                />
-              ))}
-            </div>
-          </TabsContent>
-
-          {/* IncluJet Content */}
           <TabsContent value="inclujet">
-            <p className="text-center text-gray-400 mb-8 -mt-4">
-              Our lightweight accessibility widget provides an alternative for
-              those seeking a simpler approach. While direct codebase
-              improvements offer the most comprehensive solution, IncluJet
-              offers a quick-to-implement overlay that enhances usability
-              without requiring immediate code changes.
-            </p>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               {incluJetPlans.map((plan) => (
                 <PricingCard
                   key={plan.name}
@@ -550,8 +457,35 @@ export default function PricingPage() {
               ))}
             </div>
           </TabsContent>
+          <TabsContent value="inclufix">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {incluFixPlans.map((plan) => (
+                <PricingCard
+                  key={plan.name}
+                  plan={plan}
+                  billingCycle={billingCycle}
+                />
+              ))}
+            </div>
+          </TabsContent>
         </Tabs>
-      </main>
+
+        {/* Comparison Table Section (Optional - Add later if needed) */}
+        {/*
+        <div className="mt-24">
+          <h2 className="text-3xl font-bold text-center mb-12">Compare Plans</h2>
+          {/* Add comparison table component here *}
+        </div>
+        */}
+
+        {/* FAQ Section (Optional - Add later if needed) */}
+        {/*
+        <div className="mt-24 max-w-4xl mx-auto">
+          <h2 className="text-3xl font-bold text-center mb-12">Frequently Asked Questions</h2>
+          {/* Add FAQ component here *}
+        </div>
+        */}
+      </div>
     </div>
   );
 }

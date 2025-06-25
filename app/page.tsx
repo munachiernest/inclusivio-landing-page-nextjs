@@ -77,6 +77,9 @@ export default function LandingPage() {
               className="container mx-auto px-4 mt-16 rounded-lg"
               aria-labelledby="dashboard-preview"
             >
+              <h2 id="dashboard-preview" className="sr-only">
+                Dashboard Preview
+              </h2>
               <div className="w-full h-full">
                 <div className="w-full h-[80vh] hidden md:block overflow-hidden">
                   <Image
