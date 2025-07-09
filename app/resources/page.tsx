@@ -57,7 +57,7 @@ export default function ResourcesPage() {
             <p className="text-gray-300 text-lg mb-6 flex-grow">
               {" "}
               {/* flex-grow */}
-              Coming Soon! We're preparing insightful articles, tips, and
+              Coming Soon! We&apos;re preparing insightful articles, tips, and
               updates on web accessibility and digital inclusion.
             </p>
             <p className="text-sm text-gray-500 mt-auto">

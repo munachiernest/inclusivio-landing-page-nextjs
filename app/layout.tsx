@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Rethink_Sans } from "next/font/google";
 import { Footer } from "../components/footer";
+import { ConvexClientProvider } from "./ConvexClientProvider";
 
 const RethinkSans = Rethink_Sans({
   subsets: ["latin"],
@@ -68,8 +69,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body suppressHydrationWarning={true} className={RethinkSans.className}>
-        {children}
-        <Footer />
+        <ConvexClientProvider>
+          {children}
+          <Footer />
+        </ConvexClientProvider>
       </body>
     </html>
   );

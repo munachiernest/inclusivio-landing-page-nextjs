@@ -1,20 +1,25 @@
 "use client";
 
-import React, { useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea"; // Import Textarea
 import Navbar from "@/components/navbar";
-import { ArrowRight, CheckCircle2, Mail } from "lucide-react";
+import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { registerUser } from "@/app/actions/registration";
+import { useMutation } from "convex/react";
+import { api } from "../../convex/_generated/api";
+import { z } from "zod";
+import Link from "next/link";
+
+const waitlistSchema = z.object({
+  name: z.string().min(1, "Name is required"),
+  email: z.string().email("Invalid email address"),
+  company: z.string().min(1, "Company is required"),
+  useCase: z.string().optional(),
+});
 
 export default function ComingSoonPage() {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const feature = searchParams.get("feature") || "This feature";
-
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [company, setCompany] = useState("");
@@ -22,27 +27,66 @@ export default function ComingSoonPage() {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [validationErrors, setValidationErrors] = useState<{
+    [key: string]: string;
+  }>({});
+
+  const addToWaitlist = useMutation(api.waitlist.addToWaitlist);
+
+  // Countdown logic
+  // Use local time for August 1, 2024 midnight
+  const [timeLeft, setTimeLeft] = useState<{
+    days: number;
+    hours: number;
+    minutes: number;
+    seconds: number;
+  }>({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+
+  useEffect(() => {
+    const updateCountdown = () => {
+      const launchDate = new Date(2025, 7, 1, 0, 0, 0, 0);
+      const now = new Date();
+      const diff = launchDate.getTime() - now.getTime();
+      if (diff <= 0) {
+        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+        return;
+      }
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / (1000 * 60)) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+      setTimeLeft({ days, hours, minutes, seconds });
+    };
+    updateCountdown();
+    const interval = setInterval(updateCountdown, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError("");
+    setValidationErrors({});
 
-    // Create form data for the server action
-    const formData = new FormData();
-    formData.append("name", name);
-    formData.append("email", email);
-    formData.append("company", company);
-    formData.append("feature", feature);
-    formData.append("useCase", useCase); // Add useCase to FormData
+    // Validate with Zod
+    const result = waitlistSchema.safeParse({ name, email, company, useCase });
+    if (!result.success) {
+      const fieldErrors: { [key: string]: string } = {};
+      for (const err of result.error.errors) {
+        if (err.path[0]) fieldErrors[err.path[0]] = err.message;
+      }
+      setValidationErrors(fieldErrors);
+      setLoading(false);
+      return;
+    }
 
     try {
-      const result = await registerUser(formData);
-
-      if (!result.success) {
-        throw new Error(result.message || "Something went wrong");
-      }
-
+      await addToWaitlist({
+        name,
+        email,
+        company: company || "",
+        useCase: useCase || "",
+      });
       setSubmitted(true);
     } catch (err) {
       console.error("Error submitting form:", err);
@@ -72,41 +116,72 @@ export default function ComingSoonPage() {
             </h1>
             <p className="text-gray-300 mb-8">
               We&apos;ve added you to our waitlist and will notify you as soon
-              as this feature becomes available.
+              as we launch in August.
             </p>
-            <Button
-              variant="default"
-              className="bg-brand-accent text-white hover:bg-brand-accent/80"
-              onClick={() => router.push("/")}
+            <Link
+              href="/"
+              className="
+                bg-brand-accent text-white hover:bg-brand-accent/80
+                rounded-md px-6 py-3 text-lg font-semibold
+                transition-colors duration-200 cursor-pointer
+                inline-flex items-center justify-center mt-4
+              "
             >
               Back to Home
-            </Button>
+            </Link>
           </div>
         ) : (
           // --- Form State ---
           <>
             <div className="text-center mb-8 max-w-lg">
-              <span className="inline-block px-3 py-1 rounded-full bg-brand-accent/10 text-brand-accent text-sm font-medium mb-4">
+              <span
+                className="
+                  inline-block px-3 py-1 rounded-full
+                  bg-brand-accent/10 text-brand-accent font-medium mb-4
+                "
+              >
                 COMING SOON
               </span>
-              <h1 className="text-3xl md:text-4xl font-bold mb-4">
-                {feature} is launching soon
-              </h1>
-              <p className="text-gray-300">
-                We&apos;re working hard to bring you this feature. Sign up now
-                to get early access and updates when it launches.
-              </p>
+              {/* Countdown Timer */}
+              <div className="flex justify-center gap-4 mb-4">
+                <div className="flex flex-col items-center">
+                  <span className="text-3xl md:text-4xl font-bold">
+                    {timeLeft.days}
+                  </span>
+                  <span className=" text-gray-400 uppercase tracking-widest">
+                    Days
+                  </span>
+                </div>
+                <div className="flex flex-col items-center">
+                  <span className="text-3xl md:text-4xl font-bold">
+                    {String(timeLeft.hours).padStart(2, "0")}
+                  </span>
+                  <span className=" text-gray-400 uppercase tracking-widest">
+                    Hours
+                  </span>
+                </div>
+                <div className="flex flex-col items-center">
+                  <span className="text-3xl md:text-4xl font-bold">
+                    {String(timeLeft.minutes).padStart(2, "0")}
+                  </span>
+                  <span className=" text-gray-400 uppercase tracking-widest">
+                    Minutes
+                  </span>
+                </div>
+                <div className="flex flex-col items-center">
+                  <span className="text-3xl md:text-4xl font-bold">
+                    {String(timeLeft.seconds).padStart(2, "0")}
+                  </span>
+                  <span className="text-gray-400 uppercase tracking-widest">
+                    Seconds
+                  </span>
+                </div>
+              </div>
             </div>
 
             <div className="bg-[#0D1A07] border border-[#304F21] rounded-lg p-8 max-w-md w-full">
-              <div className="mb-6 flex justify-center">
-                <div className="p-3 rounded-full bg-brand-accent/10 border border-brand-accent/20">
-                  <Mail className="w-6 h-6 text-brand-accent" />
-                </div>
-              </div>
-
               {error && (
-                <div className="mb-4 p-3 bg-red-900/30 border border-red-800 rounded-md text-sm text-red-200">
+                <div className="mb-4 p-3 bg-red-900/30 border border-red-800 rounded-md  text-red-200">
                   {error}
                 </div>
               )}
@@ -116,7 +191,7 @@ export default function ComingSoonPage() {
                 <div>
                   <label
                     htmlFor="name"
-                    className="block text-sm font-medium text-gray-300 mb-1"
+                    className="block  font-medium text-gray-300 mb-1"
                   >
                     Your Name
                   </label>
@@ -129,13 +204,18 @@ export default function ComingSoonPage() {
                     required
                     className="bg-[#122013] border-[#304F21] text-white placeholder:text-gray-500 w-full"
                   />
+                  {validationErrors.name && (
+                    <p className="text-red-400 text-xs mt-1">
+                      {validationErrors.name}
+                    </p>
+                  )}
                 </div>
 
                 {/* --- Email Field --- */}
                 <div>
                   <label
                     htmlFor="email"
-                    className="block text-sm font-medium text-gray-300 mb-1"
+                    className="block  font-medium text-gray-300 mb-1"
                   >
                     Email Address
                   </label>
@@ -148,15 +228,20 @@ export default function ComingSoonPage() {
                     required
                     className="bg-[#122013] border-[#304F21] text-white placeholder:text-gray-500 w-full"
                   />
+                  {validationErrors.email && (
+                    <p className="text-red-400 text-xs mt-1">
+                      {validationErrors.email}
+                    </p>
+                  )}
                 </div>
 
-                {/* --- Company Field --- */}
+                {/* --- Company Field (Required) --- */}
                 <div>
                   <label
                     htmlFor="company"
-                    className="block text-sm font-medium text-gray-300 mb-1"
+                    className="block  font-medium text-gray-300 mb-1"
                   >
-                    Company (Optional)
+                    Company <span className="text-red-400">*</span>
                   </label>
                   <Input
                     id="company"
@@ -164,36 +249,49 @@ export default function ComingSoonPage() {
                     placeholder="Enter your company name"
                     value={company}
                     onChange={(e) => setCompany(e.target.value)}
+                    required
                     className="bg-[#122013] border-[#304F21] text-white placeholder:text-gray-500 w-full"
                   />
+                  {validationErrors.company && (
+                    <p className="text-red-400 text-xs mt-1">
+                      {validationErrors.company}
+                    </p>
+                  )}
                 </div>
 
-                {/* --- Use Case Field (New) --- */}
+                {/* --- Use Case Field (Optional) --- */}
                 <div>
                   <label
                     htmlFor="useCase"
-                    className="block text-sm font-medium text-gray-300 mb-1"
+                    className="block  font-medium text-gray-300 mb-1"
                   >
                     Your Use Case (Optional)
                   </label>
                   <Textarea
                     id="useCase"
-                    placeholder={`Why do you need the "${feature}" feature?`}
+                    placeholder="Why are you interested in Inclusivio?"
                     value={useCase}
                     onChange={(e) => setUseCase(e.target.value)}
-                    className="bg-[#122013] border-[#304F21] text-white placeholder:text-gray-500 w-full min-h-[80px]" // Added min-height
-                    rows={3} // Suggest number of rows
+                    className="bg-[#122013] border-[#304F21] text-white placeholder:text-gray-500 w-full min-h-[80px]"
+                    rows={3}
                   />
-                  <p className="text-xs text-gray-500 mt-1">
-                    Briefly describe how you plan to use this feature.
-                  </p>
+                  {validationErrors.useCase && (
+                    <p className="text-red-400 text-xs mt-1">
+                      {validationErrors.useCase}
+                    </p>
+                  )}
                 </div>
 
                 {/* --- Submit Button --- */}
                 <Button
                   type="submit"
                   className={cn(
-                    "w-full mt-4 bg-brand-accent text-white hover:bg-brand-accent/80 flex items-center justify-center",
+                    [
+                      "w-full mt-4 bg-brand-accent text-white",
+                      "flex items-center justify-center",
+                      "transition-colors duration-300",
+                      "hover:bg-lime-500 hover:text-black",
+                    ].join(" "),
                     loading && "opacity-70 cursor-not-allowed"
                   )}
                   disabled={loading}
@@ -217,14 +315,15 @@ export default function ComingSoonPage() {
                         <path
                           className="opacity-75"
                           fill="currentColor"
-                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291
+                          A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                         ></path>
                       </svg>
                       Processing...
                     </span>
                   ) : (
                     <>
-                      <span>Notify Me</span>
+                      <span>Join Waitlist</span>
                       <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                     </>
                   )}
