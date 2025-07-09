@@ -47,7 +47,7 @@ export function WhyChooseSection() {
             className="mt-8 bg-[#304F21] hover:bg-[#304F21]/80 text-white"
             asChild
           >
-            <Link href="/coming-soon?feature=Free%20Trial">
+            <Link href="/coming-soon?feature=Get%20Started">
               Get started free
             </Link>
           </Button>

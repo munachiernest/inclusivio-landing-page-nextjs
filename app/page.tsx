@@ -50,7 +50,12 @@ export default function LandingPage() {
                 user.
               </p>
 
-              <form className="max-w-2xl mx-auto flex flex-col sm:flex-row gap-4">
+              <form
+                className="max-w-2xl mx-auto flex flex-col sm:flex-row gap-4"
+                action="/coming-soon"
+                method="GET"
+              >
+                <input type="hidden" name="feature" value="Get Started" />
                 <Input
                   placeholder="Your Website Link"
                   className="flex-1 bg-[#001a00] border-[#002200] text-white placeholder:text-[#666666]"
@@ -60,6 +65,7 @@ export default function LandingPage() {
                   size="lg"
                   className="bg-[#304F21] hover:bg-[#304F21]/60 text-white border-[#307029] border-1"
                   aria-label="Get started with Inclusivio"
+                  type="submit"
                 >
                   Get started
                 </Button>

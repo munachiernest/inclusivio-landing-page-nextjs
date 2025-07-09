@@ -90,11 +90,20 @@ export default function ComingSoonPage() {
       setSubmitted(true);
     } catch (err) {
       console.error("Error submitting form:", err);
-      setError(
-        err instanceof Error
-          ? err.message
-          : "Failed to submit. Please try again."
-      );
+      if (
+        err instanceof Error &&
+        err.message.includes("already on the waitlist")
+      ) {
+        setError(
+          "This email is already on the waitlist. If you believe this is a mistake, please contact support."
+        );
+      } else {
+        setError(
+          err instanceof Error
+            ? err.message
+            : "Failed to submit. Please try again."
+        );
+      }
     } finally {
       setLoading(false);
     }

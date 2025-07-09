@@ -7,5 +7,5 @@ export default defineSchema({
         email: v.string(),
         company: v.string(),
         useCase: v.string(),
-    }),
+    }).index("by_email", ["email"]),
 }); 

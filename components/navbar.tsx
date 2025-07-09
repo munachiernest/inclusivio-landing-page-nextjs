@@ -82,7 +82,7 @@ export default function Navbar() {
             aria-label="Get started with Inclusivio"
             asChild
           >
-            <Link href="/coming-soon?feature=Onboarding">Get started</Link>
+            <Link href="/coming-soon?feature=Get%20Started">Get started</Link>
           </Button>
         </div>
       </nav>

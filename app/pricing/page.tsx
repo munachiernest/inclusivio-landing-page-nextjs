@@ -1,7 +1,7 @@
 // app/pricing/page.tsx
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { Button } from "@/components/ui/button";
 import { CheckIcon, XIcon, ArrowRight } from "lucide-react";
 import Navbar from "@/components/navbar";
@@ -102,7 +102,7 @@ const incluJetPlans: IncluJetPlan[] = [
     description: "For scaling businesses",
     pageLimit: "Up to 1000 pages", // Updated limit
     recommended: true,
-    ctaText: "Book a Demo",
+    ctaText: "Start Free Trial",
     ctaVariant: "default",
     standoutFeatures: [
       { text: "Everything in Growth, plus:", included: false },
@@ -254,23 +254,18 @@ const FeatureList = ({ items }: { items?: PlanFeature[] }) => {
   );
 };
 
-const PricingCard = ({
-  plan,
-  billingCycle,
-}: {
-  plan: IncluJetPlan | IncluFixPlan;
-  billingCycle: "monthly" | "yearly";
-}) => {
+const PricingCard = ({ plan }: { plan: IncluJetPlan | IncluFixPlan }) => {
   const isIncluJet = "pageLimit" in plan;
-  const isRecommended = isIncluJet && (plan as IncluJetPlan).recommended;
+  // Make Growth plan recommended instead of Scale
+  const isRecommended =
+    isIncluJet && plan.name.toLowerCase().includes("growth");
   const isEnterprise = plan.isEnterprise;
 
-  const price =
-    billingCycle === "yearly" ? plan.priceYearly : plan.priceMonthly;
-  const period =
-    billingCycle === "yearly"
-      ? plan.pricePeriodYearly
-      : plan.pricePeriodMonthly;
+  // Always show monthly as primary, annual as badge
+  const priceMonthly = plan.priceMonthly;
+  const periodMonthly = plan.pricePeriodMonthly;
+  const priceYearly = plan.priceYearly;
+  const periodYearly = plan.pricePeriodYearly;
 
   const features = isIncluJet ? null : (plan as IncluFixPlan).features;
   const standoutFeatures = isIncluJet
@@ -284,6 +279,16 @@ const PricingCard = ({
     ? (plan as IncluJetPlan).addedPremiumFeatures
     : null;
   const remediation = isIncluJet ? (plan as IncluJetPlan).remediation : null;
+
+  // Determine if there are any features to show
+  const hasFeatures = Boolean(
+    (standoutFeatures && standoutFeatures.length) ||
+      (premiumFeatures && premiumFeatures.length) ||
+      (remediation && remediation.length) ||
+      (addedPremiumFeatures && addedPremiumFeatures.length) ||
+      (support && support.length) ||
+      (features && features.length)
+  );
 
   return (
     <div
@@ -299,115 +304,69 @@ const PricingCard = ({
           </span>
         </div>
       )}
-
       <div className="flex-grow">
-        <h3 className="text-xl font-bold text-white mb-1 uppercase tracking-wide">
+        <h3 className="text-xl font-bold text-white mb-4 uppercase tracking-wide">
           {plan.name}
         </h3>
-        <div className="mb-4 h-16">
-          {" "}
-          {/* Fixed height for price section */}
+        <div className="mb-6 h-20 flex flex-col items-start justify-center">
           {isEnterprise ? (
             <span className="text-4xl font-bold text-white block">Custom</span>
           ) : (
             <>
-              <span className="text-4xl font-bold text-white">{price}</span>
-              <span className="text-lg text-gray-400">{period}</span>
+              <span className="text-4xl font-bold text-white">
+                {priceMonthly}
+              </span>
+              <span className="text-lg text-gray-400">{periodMonthly}</span>
+              <span
+                className="mt-2 inline-block bg-green-200 text-green-900 text-xs font-semibold px-3 py-1 rounded-full border border-green-300"
+                style={{ letterSpacing: "0.02em" }}
+              >
+                or {priceYearly}
+                {periodYearly}
+              </span>
             </>
           )}
         </div>
-        <p className="text-gray-400 mb-6">{plan.description}</p>
+        <p className="text-gray-400 mb-4">{plan.description}</p>
         {isIncluJet && (
           <p className="text-brand-accent font-semibold mb-6">
             {(plan as IncluJetPlan).pageLimit}
           </p>
         )}
       </div>
-
       <Button
         variant={plan.ctaVariant || "default"}
         className={cn(
-          "w-full mt-auto mb-6",
+          "w-full mb-6",
           plan.ctaVariant === "default"
             ? "bg-accent text-[#081303] hover:bg-accent/80"
             : "bg-transparent border border-accent text-accent hover:bg-accent/10"
         )}
       >
-        {plan.ctaText} <ArrowRight className="ml-2 h-4 w-4" />
+        {plan.name.toLowerCase().includes("growth") || plan.name.toLowerCase().includes("scale") ? "Start Free Trial" : plan.ctaText} <ArrowRight className="ml-2 h-4 w-4" />
       </Button>
-
       {!isIncluJet && (plan as IncluFixPlan).freeTrialNote && (
         <p className="text-xs text-gray-500 text-center mb-4">
           {(plan as IncluFixPlan).freeTrialNote}
         </p>
       )}
-
-      <div className="flex-grow">
-        {standoutFeatures && <FeatureList items={standoutFeatures} />}
-        {premiumFeatures && <FeatureList items={premiumFeatures} />}
-        {remediation && <FeatureList items={remediation} />}
-        {addedPremiumFeatures && <FeatureList items={addedPremiumFeatures} />}
-        {support && <FeatureList items={support} />}
-        {features && <FeatureList items={features} />}
-      </div>
+      {/* Only show divider if there are features below */}
+      {hasFeatures && <div className="border-t border-[#304F21] my-6" />}
+      {standoutFeatures && <FeatureList items={standoutFeatures} />}
+      {premiumFeatures && <FeatureList items={premiumFeatures} />}
+      {remediation && <FeatureList items={remediation} />}
+      {addedPremiumFeatures && <FeatureList items={addedPremiumFeatures} />}
+      {support && <FeatureList items={support} />}
+      {features && <FeatureList items={features} />}
     </div>
   );
 };
 
-const BillingToggle = ({
-  billingCycle,
-  onToggle,
-}: {
-  billingCycle: "monthly" | "yearly";
-  onToggle: (cycle: "monthly" | "yearly") => void;
-}) => {
-  return (
-    <div className="flex justify-center items-center space-x-4 mb-12">
-      <button
-        onClick={() => onToggle("monthly")}
-        className={cn(
-          "px-4 py-2 rounded-md text-sm font-medium transition-colors",
-          billingCycle === "monthly"
-            ? "bg-accent text-[#081303]"
-            : "text-gray-400 hover:text-white"
-        )}
-      >
-        Monthly
-      </button>
-      <div className="relative">
-        <button
-          onClick={() => onToggle("yearly")}
-          className={cn(
-            "px-4 py-2 rounded-md text-sm font-medium transition-colors",
-            billingCycle === "yearly"
-              ? "bg-accent text-[#081303]"
-              : "text-gray-400 hover:text-white"
-          )}
-        >
-          Annually
-        </button>
-        <span
-          className="absolute -top-4 -right-4 bg-[#304F21] text-accent text-xs font-semibold px-2 py-0.5 rounded-full border border-accent/50"
-          style={{ transform: "rotate(15deg)" }}
-        >
-          Save 35%
-        </span>
-      </div>
-    </div>
-  );
-};
+// Remove BillingToggle and its usage in PricingPage
 
 // --- Main Pricing Page Component ---
 
 export default function PricingPage() {
-  const [billingCycle, setBillingCycle] = useState<"monthly" | "yearly">(
-    "yearly"
-  );
-
-  const handleToggle = (cycle: "monthly" | "yearly") => {
-    setBillingCycle(cycle);
-  };
-
   return (
     <div className="bg-[#081303] text-white min-h-screen">
       <Navbar />
@@ -428,20 +387,19 @@ export default function PricingPage() {
             IncluFix. Get started today and make your digital presence
             inclusive.
           </p>
-          <BillingToggle billingCycle={billingCycle} onToggle={handleToggle} />
         </div>
 
         <Tabs defaultValue="inclujet" className="w-full">
           <TabsList className="grid w-full grid-cols-2 max-w-md mx-auto mb-12 bg-[#132213] border border-accent/20 p-1 h-auto rounded-lg">
             <TabsTrigger
               value="inclujet"
-              className="data-[state=active]:bg-accent data-[state=active]:text-[#081303] text-white rounded-md py-2 text-lg font-semibold" // Increased text size
+              className="data-[state=active]:bg-accent data-[state=active]:text-[#081303] text-white rounded-md py-2 text-lg font-semibold"
             >
               IncluJet (Widget)
             </TabsTrigger>
             <TabsTrigger
               value="inclufix"
-              className="data-[state=active]:bg-accent data-[state=active]:text-[#081303] text-white rounded-md py-2 text-lg font-semibold" // Increased text size
+              className="data-[state=active]:bg-accent data-[state=active]:text-[#081303] text-white rounded-md py-2 text-lg font-semibold"
             >
               IncluFix (Code)
             </TabsTrigger>
@@ -449,22 +407,14 @@ export default function PricingPage() {
           <TabsContent value="inclujet">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               {incluJetPlans.map((plan) => (
-                <PricingCard
-                  key={plan.name}
-                  plan={plan}
-                  billingCycle={billingCycle}
-                />
+                <PricingCard key={plan.name} plan={plan} />
               ))}
             </div>
           </TabsContent>
           <TabsContent value="inclufix">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               {incluFixPlans.map((plan) => (
-                <PricingCard
-                  key={plan.name}
-                  plan={plan}
-                  billingCycle={billingCycle}
-                />
+                <PricingCard key={plan.name} plan={plan} />
               ))}
             </div>
           </TabsContent>

@@ -10,6 +10,14 @@ export const addToWaitlist = mutation({
   },
   returns: v.null(),
   handler: async (ctx, args) => {
+    // Check if email already exists
+    const existing = await ctx.db
+      .query("waitlist")
+      .withIndex("by_email", (q) => q.eq("email", args.email))
+      .unique();
+    if (existing) {
+      throw new Error("This email is already on the waitlist.");
+    }
     await ctx.db.insert("waitlist", {
       name: args.name,
       email: args.email,
